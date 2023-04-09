@@ -1,34 +1,24 @@
 {
 	"schemaVersion": 1,
 	"id": "blockplacement",
-	"version": "${version}",
+	"version": "0.0.1",
 	"name": "Block Placement",
-	"description": "Add a simple command to place a block in mid-air, suitable for Redstone in the void.",
+	"description": "Add a simple command to place a block in mid-air, mainly for creating Redstone in the void.",
 	"authors": [
 		"KHOPAN"
 	],
 
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/KHOPAN/Block-Placement"
 	},
 
 	"license": "MIT License",
-	"icon": "assets/modid/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
 			"com.khopan.mc.mod.blockplacement.BlockPlacement"
-		],
-
-		"client": [
-			"com.khopan.mc.mod.blockplacement.BlockPlacementClient"
 		]
 	},
-
-	"mixins": [
-		"blockplacement.mixins.json"
-	],
 
 	"depends": {
 		"fabricloader": ">=0.14.17",
