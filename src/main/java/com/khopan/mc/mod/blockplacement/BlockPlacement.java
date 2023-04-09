@@ -47,7 +47,7 @@ public class BlockPlacement implements ModInitializer {
 
 				if(this.blockState == null) {
 					source.sendMessage(Text.literal("Internal Error: Field 'this.blockState' of class 'com.khopan.mc.mod.blockplacement.BlockPlacement' cannot be null").formatted(Formatting.RED));
-					source.sendMessage(Text.literal("Set to default block (minecraft:stone)"));
+					source.sendMessage(Text.literal("Set to default block"));
 					this.blockState = BlockPlacement.DEFAULT_BLOCK;
 				}
 
