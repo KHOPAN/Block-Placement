@@ -25,12 +25,14 @@ public class BlockPlacement implements ModInitializer {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(BlockPlacement.MOD_NAME);
 
+	private static final BlockState DEFAULT_BLOCK = Blocks.STONE.getDefaultState();
+
 	private BlockState blockState;
 
 	@Override
 	public void onInitialize() {
 		BlockPlacement.LOGGER.info("Initializing Block Placement Mod (Server)");
-		this.blockState = Blocks.STONE.getDefaultState();
+		this.blockState = BlockPlacement.DEFAULT_BLOCK;
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			dispatcher.register(CommandManager.literal("block").requires(source -> source.hasPermissionLevel(2)).executes(context -> {
@@ -46,14 +48,18 @@ public class BlockPlacement implements ModInitializer {
 				if(this.blockState == null) {
 					source.sendMessage(Text.literal("Internal Error: Field 'this.blockState' of class 'com.khopan.mc.mod.blockplacement.BlockPlacement' cannot be null").formatted(Formatting.RED));
 					source.sendMessage(Text.literal("Set to default block (minecraft:stone)"));
-					this.blockState = Blocks.STONE.getDefaultState();
+					this.blockState = BlockPlacement.DEFAULT_BLOCK;
 				}
 
 				BlockPos position = entity.getBlockPos();
 				world.setBlockState(position, this.blockState);
 				world.updateNeighbors(position, this.blockState.getBlock());
 				return Command.SINGLE_SUCCESS;
-			}).then(CommandManager.literal("set").then(CommandManager.argument("block", BlockStateArgumentType.blockState(registryAccess)).requires(source -> source.hasPermissionLevel(2)).executes(context -> {
+			}).then(CommandManager.literal("reset").requires(source -> source.hasPermissionLevel(2)).executes(context -> {
+				this.blockState = BlockPlacement.DEFAULT_BLOCK;
+				context.getSource().sendMessage(Text.literal("Successfully reset to default!"));
+				return Command.SINGLE_SUCCESS;
+			})).then(CommandManager.literal("set").then(CommandManager.argument("block", BlockStateArgumentType.blockState(registryAccess)).requires(source -> source.hasPermissionLevel(2)).executes(context -> {
 				this.blockState = BlockStateArgumentType.getBlockState(context, "block").getBlockState();
 				context.getSource().sendMessage(Text.literal("Successfully changed to '" + this.blockState.getBlock().getName().getString() + "'!"));
 				return Command.SINGLE_SUCCESS;
